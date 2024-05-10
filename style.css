@@ -1,0 +1,472 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui;
+    -webkit-tap-highlight-color: transparent;
+}
+:root {
+    --primary: green;
+    --secondary: #ffc000;
+    --font-primary: black;
+    --font-secondary: white;
+}
+
+body {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+.stamps-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
+    grid-gap: 25px;
+    justify-content: space-around;
+}
+
+.stamps-container .stamp {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1.5px solid var(--primary);
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+    transform: rotateY(180deg);
+    border-radius: 50%;
+    box-shadow: -5px 3px 10px 7px #8080804f, 9px -8px 50px 0px #bfbdbd52;
+}
+
+.stamps-container .stamp.toggle {
+    transform: rotateY(0deg);
+    box-shadow: -3px -1px 24px 4px #a4a2a24f;
+}
+.stamps-container .stamp.toggle .back {
+    z-index: 2f;
+}
+
+.stamp .front,
+.stamp .back {
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background-color: white;
+}
+
+.stamp .front {
+    background-color: #ffc000;
+    transform: rotateY(180deg);
+}
+.stamp .front .icon-box {
+    position: absolute;
+    inset: 10px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    /* transform: rotate(calc(32.7272deg * var(--i))); */
+    background-color: transparent;
+}
+.stamp .front .icon-box.active > div {
+    border-color: transparent;
+}
+.stamp .front .icon-box > div {
+    user-select: none;
+    width: 15%;
+    background-color: white;
+    border: 1px solid var(--primary);
+    position: relative;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    align-self: baseline;
+    /* transform: rotate(calc(-32.7272deg * var(--i))); */
+}
+.stamp .front .icon-box > div > img {
+    width: 50%;
+}
+.stamp .front .icon-box > div > span {
+    position: absolute;
+    bottom: -10px;
+    background-color: var(--primary);
+    aspect-ratio: 1/1;
+    width: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+}
+.stamp .front .details-container {
+    background-color: white;
+    z-index: 3;
+    width: 60%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset -46px -15px 20px -2px #80808036;
+    flex-direction: column;
+    border: 1px solid rgb(16, 16, 207);
+    position: relative;
+    overflow: hidden;
+}
+.details-container .stamp-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+.details-container .stamp-details button {
+    padding: 2px 7px;
+    border: 1.5px solid var(--secondary);
+    border-radius: 5px;
+    background: white;
+    align-items: center;
+    display: flex;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.details-container .stamp-details button img {
+    width: 20px;
+    margin: 0 3px 1px 0;
+}
+.details-container .stamp-details .stamp-title {
+    font-weight: 500;
+    font-size: 14px;
+    margin: 10px 0;
+    text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 8px;
+}
+.details-container .stamp-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.details-container .stamp-img img {
+    width: 20%;
+}
+.curved-circle {
+    position: absolute;
+}
+.curved-circle.stamp-info {
+    background-color: transparent;
+    /* transform: rotate(-54deg); */
+    display: flex;
+    justify-content: center;
+    inset: 1px;
+    z-index: -1;
+    top: 4px;
+}
+
+.curved-circle .circle {
+    width: 100%;
+    height: 100%;
+}
+.curved-circle .circle path {
+    fill: #86090900;
+}
+.curved-circle.stamp-info textPath {
+    font-size: 14px;
+    font-weight: 500;
+    fill: rgb(44, 127, 44);
+}
+
+.stamp .back {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: -1;
+    width: 100%;
+}
+.back .back-header {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px;
+    height: 25%;
+    width: 100%;
+}
+.back .back-header,
+.back .back-title,
+.back .back-details {
+    z-index: 10;
+}
+.back .curved-circle.valid-from,
+.back .curved-circle.valid-to {
+    inset: 5px;
+    font-size: 10px;
+    font-weight: 700;
+}
+.back .curved-circle.valid-from {
+    transform: rotate(-49deg);
+    background-color: transparent;
+}
+.back .curved-circle.valid-to {
+    transform: rotate(19deg);
+    background-color: transparent;
+}
+.back-header .back-stamp-img {
+    width: 50px;
+}
+.back-stamp-img img {
+    width: 100%;
+}
+.back > .back-title {
+    width: 100%;
+    border-top: 1.5px solid;
+    border-bottom: 1.5px solid;
+    text-align: center;
+    padding: 3px 32px;
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.back .back-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.back-details .back-desc {
+    padding: 0 15px;
+    font-size: 13px;
+    text-align: center;
+    font-style: italic;
+    font-weight: 500;
+    margin: 5px 0 20px;
+    color: var(--font-primary);
+}
+.back-details .cups-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 32px;
+}
+.back-details .cups-info > div {
+    width: 25%;
+    box-shadow: inset -10px -10px 16px #b4b3b33b;
+    border-radius: 10px;
+}
+.back-details .cups-info .cups-ratio {
+    border: 2px solid var(--secondary);
+}
+.back-details .cups-info .cups-ratio span {
+    padding: 3px 0;
+    border-bottom: inherit;
+    width: 100%;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+}
+.back-details .cups-info .cups-ratio p {
+    padding: 5px 0;
+    font-style: italic;
+    font-size: 28px;
+    font-weight: 500;
+    display: grid;
+    place-items: center;
+}
+
+.remaining-cups {
+    margin: 0 8%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--secondary);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+}
+.remaining-cups h2 {
+    font-size: 40px;
+    margin: 10px 0 0 0;
+}
+.remaining-cups p {
+    max-width: min-content;
+    text-align: center;
+    font-size: 15px;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+.back-details button {
+    margin-top: 20px;
+    width: 21%;
+    border: 2px solid var(--secondary);
+    padding: 5px;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    background: var(--secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn {
+    z-index: -1;
+    position: absolute;
+    bottom: 5px;
+    left: -1%;
+    user-select: none;
+}
+.back-btn .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: rgb(0, 0, 0);
+    width: 100%;
+    opacity: 1;
+    display: block;
+    position: relative;
+    font-size: 20px;
+    font-weight: 700;
+}
+.back-btn .circle path {
+    fill: transparent;
+    width: 100%;
+}
+.back-btn text {
+    cursor: pointer;
+    fill: rgba(0, 0, 0, 0.722);
+    user-select: none;
+    transition: all 0.3s ease;
+}
+@media screen and (max-width: 450px) {
+    .stamps-container {
+        grid-template-columns: repeat(auto-fill, 95%);
+    }
+}
+@media screen and (max-width: 420px) {
+    .back-details .cups-info > div {
+        width: 72px;
+        font-size: 14px;
+    }
+    .back-details .cups-info .cups-ratio span {
+        font-size: 13px;
+    }
+    .back-details .cups-info .cups-ratio p {
+        padding: 2px 0;
+        font-size: 23px;
+    }
+    .back-details .cups-info > div h2 {
+        font-size: 24px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .back-btn {
+        left: -5%;
+    }
+}
+@media screen and (max-width: 380px) {
+    .back-details button {
+        margin-top: 7px;
+    }
+    .back-header .back-stamp-img {
+        width: 17%;
+    }
+    .back-details .back-desc {
+        margin: 5px 0 15px;
+        font-size: 11px;
+    }
+    .back-btn {
+        left: -8%;
+    }
+}
+@media screen and (max-width: 370px) {
+    .back .curved-circle.valid-from,
+    .back .curved-circle.valid-to {
+        font-size: 9px;
+    }
+    .back .curved-circle.valid-to {
+        transform: rotate(21deg);
+    }
+    .back .curved-circle.valid-from {
+        transform: rotate(-48deg);
+    }
+    .back > .back-title {
+        height: 31px;
+        font-size: 15px;
+    }
+    .details-container .stamp-details .stamp-title {
+        margin: 2px 0 6px;
+    }
+}
+
+@media screen and (max-width: 345px) {
+    .back-details .back-desc {
+        margin: 5px 0 10px;
+    }
+    .back-details .cups-info > div {
+        width: 62px;
+    }
+    .back-details .cups-info .cups-ratio span {
+        font-size: 11px;
+    }
+    .back-details .cups-info .cups-ratio p {
+        font-size: 20px;
+    }
+    .remaining-cups {
+        margin: 0 7%;
+    }
+    .remaining-cups p {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+    }
+    .stamp .front .icon-box > div > span {
+        font-size: 9px;
+        bottom: -9px;
+    }
+    .details-container .stamp-img img {
+        width: 18%;
+    }
+    .details-container .stamp-details button {
+        transform: scale(0.8);
+    }
+    .back-btn {
+        left: -11%;
+    }
+}
+@media screen and (max-width: 340px) {
+}
+@media screen and (max-width: 330px) {
+    .back-btn {
+        left: -13%;
+    }
+    .back-btn .circle {
+        font-size: 18px;
+    }
+    .back-details .cups-info > div h2 {
+        margin: 0;
+    }
+}
+@media screen and (max-width: 310px) {
+    .back-btn {
+        left: -18%;
+        font-size: 13px;
+    }
+}
